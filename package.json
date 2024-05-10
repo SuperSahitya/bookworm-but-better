@@ -15,12 +15,14 @@
     "@auth/drizzle-adapter": "^0.7.0",
     "@t3-oss/env-nextjs": "^0.10.1",
     "drizzle-orm": "^0.29.5",
+    "framer-motion": "^11.1.9",
     "knex": "^3.1.0",
     "next": "^14.2.1",
     "next-auth": "^4.24.6",
     "postgres": "^3.4.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^5.2.1",
     "zod": "^3.23.3"
   },
   "devDependencies": {

@@ -1,10 +1,14 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  decimal,
   index,
   integer,
+  json,
+  jsonb,
   numeric,
   pgTableCreator,
   primaryKey,
+  real,
   serial,
   text,
   timestamp,
@@ -19,7 +23,7 @@ import { type AdapterAccount } from "next-auth/adapters";
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator(
-  (name) => `bookworm-but-better_${name}`
+  (name) => `bw_${name}`
 );
 
 export const user = createTable("user", {
@@ -31,7 +35,6 @@ export const user = createTable("user", {
     withTimezone: true,
   }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
-  cart: text("cart"),
 });
 
 export const posts = createTable(
@@ -57,18 +60,18 @@ export const books = createTable("books", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   author: varchar("author", { length: 255 }).notNull(),
-  description: text("description").notNull(),
   year: integer("year").notNull(),
-  price: numeric("price").notNull(),
+  description: text("description").notNull(),
+  price: real("price").notNull(),
   stock: integer("stock").notNull(),
-  categories: text("detail").notNull(),
-  detail: text("detail").notNull(),
+  categories: text("categories").array().notNull(),
+  details: text("details").array().notNull(),
   imageUrl: varchar("imageUrl", { length: 255 }),
 });
 
 export const cart = createTable("cart", {
-  user: varchar("user", { length: 255 }).notNull().primaryKey(),
-  cart: text("cart"),
+  email: varchar("email", { length: 255 }).notNull().primaryKey(),
+  cart: json("cart").default({}),
 });
 
 export const usersRelations = relations(user, ({ many }) => ({

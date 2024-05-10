@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
+  const cartArray = request.json();
   if (!session || !session.user) {
     throw new Error("Session or user is undefined");
   }
@@ -25,6 +26,6 @@ export async function POST(request: NextRequest) {
   });
 
   const newEmail: string = result!.email;
-  await db.insert(cart).values({ user: newEmail, cart: "book of the dead" });
+  await db.insert(cart).values({ email: newEmail, cart: cartArray });
   return NextResponse.json(email);
 }
