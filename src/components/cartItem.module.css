@@ -21,7 +21,6 @@
 }
 
 .image {
-  /* background-image: url("../../public/books/1984.jpeg"); */
   height: 70%;
   background-repeat: no-repeat;
   background-size: contain;

@@ -12,6 +12,16 @@ interface cardProps {
   stock: number;
 }
 
+const style = {
+  height: "70%",
+  "aspect-ratio": "467/700",
+  backgroundSize: "contain",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  outline: "2px dashed #321e1e",
+  outlineOffset: "3px",
+};
+
 const Card = ({
   bookId,
   bookName,
@@ -23,10 +33,14 @@ const Card = ({
   return (
     <Link href={`/product/${bookId}`}>
       <div className={styles.container}>
-        <div
+        <Image
           className={styles.image}
-          style={{ backgroundImage: `url(${imageUrl})` }}
-        ></div>
+          height={100}
+          width={100}
+          src={imageUrl}
+          style={style}
+          alt={bookName}
+        ></Image>
         <div className={styles.data}>
           <div className={styles.bookData}>
             <div className={styles.bookName}>{bookName}</div>
