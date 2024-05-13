@@ -1,17 +1,14 @@
 import { relations, sql } from "drizzle-orm";
 import {
-  decimal,
   index,
   integer,
-  json,
-  jsonb,
-  numeric,
   pgTableCreator,
   primaryKey,
   real,
   serial,
   text,
   timestamp,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
@@ -22,14 +19,12 @@ import { type AdapterAccount } from "next-auth/adapters";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator(
-  (name) => `bw_${name}`
-);
+export const createTable = pgTableCreator((name) => `bw_${name}`);
 
 export const user = createTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
     withTimezone: true,
@@ -40,7 +35,7 @@ export const user = createTable("user", {
 export const posts = createTable(
   "post",
   {
-    id: serial("id").primaryKey(),
+    id: uuid("id").primaryKey().defaultRandom(),
     name: varchar("name", { length: 256 }),
     createdById: varchar("createdById", { length: 255 })
       .notNull()
@@ -67,11 +62,6 @@ export const books = createTable("books", {
   categories: text("categories").array().notNull(),
   details: text("details").array().notNull(),
   imageUrl: varchar("imageUrl", { length: 255 }),
-});
-
-export const cart = createTable("cart", {
-  email: varchar("email", { length: 255 }).notNull().primaryKey(),
-  cart: json("cart").default({}),
 });
 
 export const usersRelations = relations(user, ({ many }) => ({
@@ -146,3 +136,9 @@ export const verificationTokens = createTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const cart = createTable("cart", {
+  id: varchar("id", { length: 255 }).notNull(),
+  book_id: varchar("book_id", { length: 255 }).notNull(),
+  quantity: integer("quantity").notNull(),
+});

@@ -6,8 +6,9 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
-
-import { env } from "~/env";
+import type { Provider } from "next-auth/providers/index";
+import EmailProvider from "next-auth/providers/email";
+import "dotenv";
 import { db } from "~/server/db";
 import { createTable } from "~/server/db/schema";
 
@@ -59,7 +60,12 @@ export const authOptions: NextAuthOptions = {
           response_type: "code",
         },
       },
-    }),
+    }) as Provider,
+    EmailProvider({
+      server: process.env.EMAIL_SERVER,
+      from: process.env.EMAIL_FROM,
+      maxAge: 24 * 60 * 60,
+    }) as Provider,
   ],
 };
 

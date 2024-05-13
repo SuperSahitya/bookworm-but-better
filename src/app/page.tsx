@@ -26,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     async function getData() {
       try {
-        const result = await fetch("http://localhost:3000/api/books?");
+        const result = await fetch("http://localhost:3000/api/books");
         const dataArray: Data[] = (await result.json()) as Data[];
         setData(dataArray);
       } catch (error) {

@@ -1,4 +1,4 @@
-const bookList = [
+const bookL = [
   {
     name: "The Haunting Of Hill House",
     author: "Shirley Jackson",
@@ -487,4 +487,3 @@ const bookList = [
   },
 ];
 
-export default bookList;
