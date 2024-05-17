@@ -4,8 +4,20 @@ import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
 import { FaRegBookmark } from "react-icons/fa";
+import { Updation, useCartStore } from "~/components/Navbar";
+
+interface CartItem {
+  id: string;
+  name: string;
+  author: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+}
 
 const Product = ({ params }: { params: { id: number } }) => {
+  const cart = useCartStore((state) => state.cart);
+
   type Data = {
     id: number;
     name: string;
@@ -45,8 +57,35 @@ const Product = ({ params }: { params: { id: number } }) => {
     console.log(data);
   }
 
+  const setCart = useCartStore((state) => state.setCart);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+
   const handleAddToCart = (data: Data) => {
-    console.log("added to cart");
+    let itemExists = false;
+
+    // eslint-disable-next-line prefer-const
+    let updatedCart: CartItem[] = [];
+
+    const j: CartItem[] = cart.map((item) => {
+      if (item.id === data.id.toString()) {
+        itemExists = true;
+        updateQuantity(data.id.toString(), Updation.Increase);
+      }
+      return item;
+    });
+
+    if (!itemExists) {
+      updatedCart.push({
+        id: data.id.toString(),
+        name: data.name,
+        author: data.author,
+        price: data.price,
+        imageUrl: data.imageUrl,
+        quantity: 1,
+      });
+    }
+
+    setCart(updatedCart);
   };
 
   return (

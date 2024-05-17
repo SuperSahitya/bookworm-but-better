@@ -3,6 +3,7 @@ import React from "react";
 import { MdDeleteForever } from "react-icons/md";
 import styles from "./cartItem.module.css";
 import { useState, useContext } from "react";
+import { Updation, useCartStore } from "./Navbar";
 
 interface cartItemProps {
   id: string;
@@ -21,16 +22,18 @@ const CartItem = ({
   imageUrl,
   quantity,
 }: cartItemProps) => {
-  const handleIncrease = () => {
-    console.log("increase quantity");
-  };
-  const handleDecrease = () => {
-    console.log("decrease quantity");
-  };
+  const { removeItemFromCart } = useCartStore();
+  const { cart } = useCartStore();
   const handleRemove = () => {
-    console.log("remove item");
+    removeItemFromCart(id);
+    console.log(cart);
   };
 
+  const { updateQuantity } = useCartStore();
+  const handleQuantityChange = (id: string, u: Updation) => {
+    updateQuantity(id, u);
+    console.log(cart);
+  };
   return (
     <div className={styles.cartItem}>
       <div className={styles.imageContainer}>
@@ -49,11 +52,17 @@ const CartItem = ({
         </div>
         <div className={styles.quantityDiv}>
           <div className={styles.quantityContainer}>
-            <div className={styles.sign} onClick={handleDecrease}>
+            <div
+              className={styles.sign}
+              onClick={() => handleQuantityChange(id, Updation.Decrease)}
+            >
               -
             </div>
             <div className={styles.quantity}>{quantity}</div>
-            <div className={styles.sign} onClick={handleIncrease}>
+            <div
+              className={styles.sign}
+              onClick={() => handleQuantityChange(id, Updation.Increase)}
+            >
               +
             </div>
           </div>

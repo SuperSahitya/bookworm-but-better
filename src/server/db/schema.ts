@@ -138,7 +138,7 @@ export const verificationTokens = createTable(
 );
 
 export const cart = createTable("cart", {
-  id: varchar("id", { length: 255 }).notNull(),
+  userId: varchar("UserId", { length: 255 }).notNull(),
   book_id: varchar("book_id", { length: 255 }).notNull(),
   quantity: integer("quantity").notNull(),
 });

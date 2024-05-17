@@ -7,15 +7,87 @@ import { ImCross } from "react-icons/im";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
 import CartItem from "./CartItem";
+import { create } from "zustand";
+
+interface CartItem {
+  id: string;
+  name: string;
+  author: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+}
+
+export enum Updation {
+  Increase = "increase",
+  Decrease = "decrease",
+}
+
+type UseCartStore = {
+  cart: CartItem[];
+  updateQuantity: (e: string, u: Updation) => void;
+  setCart: (e: CartItem[]) => void;
+  removeItemFromCart: (e: string) => void;
+  totalPrice: () => number;
+};
+
+export const useCartStore = create<UseCartStore>((set, get) => ({
+  cart: [],
+  updateQuantity: (id, u) => {
+    let cart = get().cart;
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < cart.length; i++) {
+      if (id == cart[i]!.id) {
+        if (u == Updation.Increase) {
+          cart[i]!.quantity++;
+        } else if (u == Updation.Decrease && cart[i]!.quantity > 1) {
+          cart[i]!.quantity--;
+        } else if (u == Updation.Decrease && cart[i]!.quantity == 1) {
+          cart = cart.filter((item) => item.id !== id);
+        }
+      }
+    }
+    set({ cart });
+  },
+  setCart: (e: CartItem[]) => set((state) => ({ cart: [...state.cart, ...e] })),
+  removeItemFromCart: (id) => {
+    let cart = get().cart;
+    cart = cart.filter((c) => c.id != id);
+    set({ cart });
+  },
+  totalPrice: () => {
+    let totalPrice = 0;
+    get().cart.forEach((item) => {
+      totalPrice += item.price * item.quantity;
+    });
+    return totalPrice;
+  },
+}));
+
+interface cartFromServer {
+  userId: string;
+  book_id: string;
+  quantity: number;
+}
 
 const Navbar = () => {
-  // const { user, setUser } = useContext(UserContext);
+  const totalPriceSelector = (state: UseCartStore) => {
+    let totalPrice = 0;
+    state.cart.forEach((item) => {
+      totalPrice += item.price * item.quantity;
+    });
+    return totalPrice;
+  };
+
+  const totalPrice = useCartStore(totalPriceSelector);
+
+  const cart = useCartStore((state) => state.cart);
+
   const [isOpen, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
-  // const { cart, dispatch } = useContext(CartContext);
-  const {data: session, status} = useSession()
-  
+
+  const { data: session, status } = useSession();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,6 +126,19 @@ const Navbar = () => {
     };
   }, [overlayOpen]);
 
+  const { setCart } = useCartStore();
+  // useEffect(() => {
+  //   async function getCart() {
+  //     const response = fetch("/api/cart");
+  //     return await response.json() as cartFromServer[];
+  //   }
+
+  //   try {
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // });
+
   return (
     <>
       {overlayOpen && <div className={styles.overlay} onClick={closeAll}></div>}
@@ -69,7 +154,9 @@ const Navbar = () => {
               // <Link className={styles.loginButton} href={"/login"}>
               //   <FaUserCircle />
               // </Link>
-              <Link href={"/api/auth/signin"}>Log In</Link>
+              <Link href={"/api/auth/signin"} className={styles.logButton}>
+                Log In
+              </Link>
             ) : (
               <Link className={styles.loginButton} href={"/profile"}>
                 <FaUserCircle />
@@ -120,7 +207,9 @@ const Navbar = () => {
                   Contact
                 </Link>
                 {session ? (
-                  <Link href={"/api/auth/logout"}></Link>
+                  <Link href={"/api/auth/logout"} className={styles.logButton}>
+                    Log Out
+                  </Link>
                 ) : (
                   <Link
                     href={"/login"}
@@ -159,12 +248,12 @@ const Navbar = () => {
                 {cart.map((item) => {
                   return (
                     <CartItem
-                      id={item._id}
+                      id={item.id}
                       key={item.id}
                       bookName={item.name}
                       authorName={item.author}
                       price={item.price}
-                      image={item.image}
+                      imageUrl={item.imageUrl}
                       quantity={item.quantity}
                     ></CartItem>
                   );
