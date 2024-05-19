@@ -6,6 +6,7 @@ import { useState, useContext } from "react";
 import { Updation, useCartStore } from "./Navbar";
 
 interface cartItemProps {
+  userId?: string,
   id: string;
   bookName: string;
   authorName: string;
@@ -15,6 +16,7 @@ interface cartItemProps {
 }
 
 const CartItem = ({
+  userId,
   id,
   bookName,
   authorName,

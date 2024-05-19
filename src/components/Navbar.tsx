@@ -10,6 +10,7 @@ import CartItem from "./CartItem";
 import { create } from "zustand";
 
 interface CartItem {
+  userId?: string;
   id: string;
   name: string;
   author: string;
@@ -66,7 +67,11 @@ export const useCartStore = create<UseCartStore>((set, get) => ({
 
 interface cartFromServer {
   userId: string;
-  book_id: string;
+  id: string;
+  name: string;
+  author: string;
+  price: number;
+  imageUrl: string;
   quantity: number;
 }
 
@@ -127,17 +132,45 @@ const Navbar = () => {
   }, [overlayOpen]);
 
   const { setCart } = useCartStore();
-  // useEffect(() => {
-  //   async function getCart() {
-  //     const response = fetch("/api/cart");
-  //     return await response.json() as cartFromServer[];
-  //   }
+  useEffect(() => {
+    async function getCart() {
+      const response = await fetch("/api/cart");
+      const cartDataFromSever = (await response.json()) as cartFromServer[];
+      setCart(cartDataFromSever);
+    }
 
-  //   try {
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // });
+    try {
+      getCart().catch((e) => console.log(e));
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function sendCartDataToserver() {
+      // Ensure each item has a userId before sending
+      const cartWithUserId = cart.map((item) => ({
+        ...item,
+        userId: session?.user?.id ?? item.userId,
+      }));
+
+      const response = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartWithUserId),
+      });
+    }
+
+    try {
+      if (session?.user) {
+        sendCartDataToserver().catch((e) => console.log(e));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [cart]);
 
   return (
     <>
@@ -248,6 +281,7 @@ const Navbar = () => {
                 {cart.map((item) => {
                   return (
                     <CartItem
+                    userId={session?.user.id}
                       id={item.id}
                       key={item.id}
                       bookName={item.name}

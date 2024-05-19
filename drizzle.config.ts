@@ -8,5 +8,6 @@ export default {
   dbCredentials: {
     connectionString: env.DATABASE_URL,
   },
-  tablesFilter: ["bookworm-but-better_*"],
+  verbose: true,
+  tablesFilter: ["bw_*"],
 } satisfies Config;

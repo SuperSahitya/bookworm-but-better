@@ -5,11 +5,17 @@ import { db } from "~/server/db";
 import { cart, user } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
+interface CartItem {
+  userId?: string;
+  id: string;
+  name: string;
+  author: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+}
+
 export async function GET(request: NextRequest) {
-  const hello = [
-    ["hello", 4],
-    ["hello", 4],
-  ];
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
   if (!email) {
@@ -19,17 +25,13 @@ export async function GET(request: NextRequest) {
     where: (table, funcs) => funcs.eq(table.email, email),
   });
   const id: string = userData!.id;
-  const cart = await db.query.cart.findMany({
-    where: (table, funcs) => funcs.eq(table.id, id),
-  });
+  const cartItems = await db.select().from(cart).where(eq(cart, id));
+  return NextResponse.json(cartItems);
 }
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
-  const cartArray: (string | number)[][] = (await request.json()) as (
-    | string
-    | number
-  )[][];
+  const cartArray: CartItem[] = (await request.json()) as CartItem[];
   const email = session?.user?.email;
   if (!email) {
     throw new Error("Email is undefined");
@@ -39,15 +41,7 @@ export async function POST(request: NextRequest) {
   });
   const id: string = userData!.id;
 
-  if (cartArray) {
-    await Promise.all(
-      cartArray.map(async (element) => {
-        await db.insert(cart).values({
-          id: id,
-          book_id: element[0] as string,
-          quantity: element[1] as number,
-        });
-      })
-    );
+  if (cartArray && id) {
+    await db.insert(cart).values(cartArray);
   }
 }

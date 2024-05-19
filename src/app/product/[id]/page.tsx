@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import { Updation, useCartStore } from "~/components/Navbar";
+import { useSession } from "next-auth/react";
 
 interface CartItem {
+  userId?: string;
   id: string;
   name: string;
   author: string;
@@ -16,6 +18,7 @@ interface CartItem {
 }
 
 const Product = ({ params }: { params: { id: number } }) => {
+  const { data: session, status } = useSession();
   const cart = useCartStore((state) => state.cart);
 
   type Data = {
@@ -76,6 +79,7 @@ const Product = ({ params }: { params: { id: number } }) => {
 
     if (!itemExists) {
       updatedCart.push({
+        userId: session?.user.id,
         id: data.id.toString(),
         name: data.name,
         author: data.author,
