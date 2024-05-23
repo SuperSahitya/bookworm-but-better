@@ -151,7 +151,10 @@ const Navbar = () => {
     }
 
     try {
-      getCart().catch((e) => console.log(e));
+      //check here?
+      if (session?.user.email) {
+        getCart().catch((e) => console.log(e));
+      }
       // console.log("end:", cart);
     } catch (e) {
       console.log(e);
@@ -198,7 +201,7 @@ const Navbar = () => {
               // <Link className={styles.loginButton} href={"/login"}>
               //   <FaUserCircle />
               // </Link>
-              <Link href={"/api/auth/signin"} className={styles.logButton}>
+              <Link href={"/api/auth/signin"} className={styles.logInNavButton}>
                 Log In
               </Link>
             ) : (
@@ -233,7 +236,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   className={styles.links}
-                  href={session ? "/profile" : "/login"}
+                  href={session ? "/profile" : "/api/auth/signin"}
                   onClick={handleClick}
                 >
                   My Account
@@ -251,7 +254,7 @@ const Navbar = () => {
                   Contact
                 </Link>
                 {session ? (
-                  <Link href={"/api/auth/logout"} className={styles.logButton}>
+                  <Link href={"/api/auth/signout"} className={styles.logButton}>
                     Log Out
                   </Link>
                 ) : (

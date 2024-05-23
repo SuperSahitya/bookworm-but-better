@@ -69,6 +69,15 @@
   /* padding: 50px; */
 }
 
+.logInNavButton{
+  background-color: #321e1e;
+  color: #f4f1e0;
+  font-weight: 400;
+  padding: 6px 12px;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
 @media (max-width: 550px) {
   .panel {
     flex-direction: column;
