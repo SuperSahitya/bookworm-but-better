@@ -50,7 +50,15 @@ export const useCartStore = create<UseCartStore>((set, get) => ({
     }
     set({ cart });
   },
-  setCart: (e: CartItem[]) => set((state) => ({ cart: [...state.cart, ...e] })),
+  setCart: (newItems: CartItem[]) =>
+    set((state) => ({
+      cart: [
+        ...state.cart.filter(
+          (item) => !newItems.some((newItem) => newItem.id === item.id)
+        ),
+        ...newItems,
+      ],
+    })),
   removeItemFromCart: (id) => {
     let cart = get().cart;
     cart = cart.filter((c) => c.id != id);
@@ -86,7 +94,7 @@ const Navbar = () => {
 
   const totalPrice = useCartStore(totalPriceSelector);
 
-  const cart = useCartStore((state) => state.cart);
+  const { cart } = useCartStore();
 
   const [isOpen, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -136,11 +144,15 @@ const Navbar = () => {
     async function getCart() {
       const response = await fetch("/api/cart");
       const cartDataFromSever = (await response.json()) as cartFromServer[];
+      console.log("cartDataFromServre", cartDataFromSever);
+      // console.log("before: ", cart);
       setCart(cartDataFromSever);
+      // console.log("after: ", cart);
     }
 
     try {
       getCart().catch((e) => console.log(e));
+      // console.log("end:", cart);
     } catch (e) {
       console.log(e);
     }
@@ -148,7 +160,6 @@ const Navbar = () => {
 
   useEffect(() => {
     async function sendCartDataToserver() {
-      // Ensure each item has a userId before sending
       const cartWithUserId = cart.map((item) => ({
         ...item,
         userId: session?.user?.id ?? item.userId,
@@ -171,7 +182,7 @@ const Navbar = () => {
       console.log(e);
     }
   }, [cart]);
-
+  console.log(cart);
   return (
     <>
       {overlayOpen && <div className={styles.overlay} onClick={closeAll}></div>}
@@ -281,7 +292,7 @@ const Navbar = () => {
                 {cart.map((item) => {
                   return (
                     <CartItem
-                    userId={session?.user.id}
+                      userId={session?.user.id}
                       id={item.id}
                       key={item.id}
                       bookName={item.name}
@@ -294,9 +305,9 @@ const Navbar = () => {
                 })}
                 <div className={styles.border}></div>
                 {cart.length == 0 ? (
+                  //fix this
                   <h1>No Books In The Shelf?</h1>
                 ) : (
-                  //fix this ugly piece of shit @sahitya
                   <div className={styles.checkoutContainer}>
                     <div className={styles.subtotalContainer}>
                       <div className={styles.subtotalHeading}>SUBTOTAL</div>

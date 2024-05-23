@@ -56,9 +56,9 @@ const Product = ({ params }: { params: { id: number } }) => {
     getData().catch((error) => console.error("Failed to fetch books:", error));
   }, [params.id]);
 
-  if (data) {
-    console.log(data);
-  }
+  // if (data) {
+  //   console.log(data);
+  // }
 
   const setCart = useCartStore((state) => state.setCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);

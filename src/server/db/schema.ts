@@ -35,7 +35,7 @@ export const user = createTable("user", {
 export const posts = createTable(
   "post",
   {
-    id: uuid("id").primaryKey().defaultRandom(),
+    id: varchar("id", { length: 255 }).notNull().primaryKey(),
     name: varchar("name", { length: 256 }),
     createdById: varchar("createdById", { length: 255 })
       .notNull()
@@ -139,7 +139,7 @@ export const verificationTokens = createTable(
 
 export const cart = createTable("cart", {
   userId: varchar("userId", { length: 255 }),
-  id: varchar("id", { length: 255 }).notNull(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   author: varchar("author", { length: 255 }).notNull(),
   price: real("price").notNull(),

@@ -1,12 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import styles from "./cartItem.module.css";
 import { useState, useContext } from "react";
 import { Updation, useCartStore } from "./Navbar";
+import { useSession } from "next-auth/react";
 
 interface cartItemProps {
-  userId?: string,
+  userId?: string;
   id: string;
   bookName: string;
   authorName: string;
@@ -26,15 +27,76 @@ const CartItem = ({
 }: cartItemProps) => {
   const { removeItemFromCart } = useCartStore();
   const { cart } = useCartStore();
-  const handleRemove = () => {
+  const handleRemove = async () => {
     removeItemFromCart(id);
-    console.log(cart);
+    const res = await fetch("/api/cart", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+    // console.log(cart);
   };
 
   const { updateQuantity } = useCartStore();
-  const handleQuantityChange = (id: string, u: Updation) => {
-    updateQuantity(id, u);
-    console.log(cart);
+  const { data: session, status } = useSession();
+  const handleQuantityChange = async (id: string, u: Updation) => {
+    const newQuantity = u === Updation.Increase ? quantity + 1 : quantity - 1;
+
+    if (newQuantity > 0) {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          {
+            userId: session?.user.id,
+            id: id,
+            name: bookName,
+            author: authorName,
+            price: price,
+            imageUrl: imageUrl,
+            quantity: newQuantity,
+          },
+        ]),
+      });
+      // console.log({
+      //   userId: session?.user.id,
+      //   id: id,
+      //   bookName: bookName,
+      //   authorName: authorName,
+      //   price: price,
+      //   imageUrl: imageUrl,
+      //   quantity: newQuantity,
+      // });
+      // console.log("senderred", await res.json());
+
+      if (res.ok) {
+        updateQuantity(id, u);
+        // console.log({
+        //   bookName: bookName,
+        //   quantity: newQuantity,
+        // });
+      } else {
+        console.error("Failed to update quantity in the database");
+      }
+    } else {
+      const res = await fetch("/api/cart", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        updateQuantity(id, u);
+      } else {
+        console.error("Failed to remove item from the database");
+      }
+    }
   };
   return (
     <div className={styles.cartItem}>
