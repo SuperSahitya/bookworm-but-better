@@ -152,7 +152,6 @@ const Navbar = () => {
     }
 
     try {
-      //check here?
       if (session?.user.email) {
         getCart().catch((e) => console.log(e));
       }
