@@ -1,54 +1,41 @@
 "use client";
 import React, { useContext } from "react";
 import styles from "./profile.module.css";
-import UserContext from "@/contexts/userContext";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Profile = () => {
-  const { user, setUser } = useContext(UserContext);
-  const handleLogout = async () => {
-    console.log(user);
-    try {
-      const response = await fetch("http://localhost:8000/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      setUser(null);
-      console.log("logout successful");
-    } catch (error) {
-      console.error("Failed to log out:", error);
-    }
-  };
-  console.log(user);
+  const { data: session, status } = useSession();
   return (
     <>
+      {/* make it better */}
       <div className={styles.profileContainer}>
-        <div className={styles.image}></div>
+        <div
+          className={styles.image}
+          style={{ background: `url(${session?.user.image})` }}
+        ></div>
         <div className={styles.profileData}>
-          {user ? (
-            <div className={styles.userName}>{user ? user.name : ""}</div>
+          {session ? (
+            <div className={styles.userName}>
+              {session ? session.user.name : ""}
+            </div>
           ) : (
             ""
           )}
-          {user ? (
-            <div className={styles.email}>{user ? user.email : ""}</div>
+          {session ? (
+            <div className={styles.email}>
+              {session ? session.user.email : ""}
+            </div>
           ) : (
             ""
           )}
-          {user ? <div>{user.address}</div> : ""}
-          {user ? <div>Add Adress</div> : ""}
         </div>
-        {user ? (
-          <div onClick={handleLogout} className={styles.logButton}>
+        {session ? (
+          <Link href={"/api/auth/signout"} className={styles.logButton}>
             Log Out
-          </div>
+          </Link>
         ) : (
-          <Link href={"/login"} className={styles.logButton}>
+          <Link href={"/api/auth/signin"} className={styles.logButton}>
             Log In
           </Link>
         )}

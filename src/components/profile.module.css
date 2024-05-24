@@ -13,17 +13,13 @@
 
 .image {
   height: 20%;
-  min-height: 50px;
+  min-height: 70px;
   max-width: 50% ;
   aspect-ratio: 1;
   overflow: hidden;
-  background-image: url("../../public/profile.svg");
   background-repeat: no-repeat;
-  /* background-size: 90%; */
   background-size: cover;
   background-position: center;
-  /* border: 2px solid #321e1e; */
-  /* border-radius: 50%; */
   outline: 2px solid #321e1e;
   outline-offset: 5px;
   border-radius: 50%;
