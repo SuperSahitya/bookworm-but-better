@@ -71,7 +71,7 @@
   background-position: center;
   /* outline: 2px dashed #321e1e; */
   /* outline-offset: 3px; */
-  background-image: url("/books/crime-and-punishment.jpeg");
+  /* background-image: url("/books/crime-and-punishment.jpeg"); */
 }
 .nextImage {
   width: 30%;
@@ -81,7 +81,7 @@
   background-position: center;
   /* outline: 2px dashed #321e1e; */
   /* outline-offset: 3px; */
-  background-image: url("/books/lord-of-the-flies.jpeg");
+  /* background-image: url("/books/lord-of-the-flies.jpeg"); */
 }
 
 .productHeading {
@@ -91,6 +91,7 @@
 .productDescription {
   margin-top: 5vh;
   font-weight: 400;
+  /* font-family: Outfit; */
 }
 
 .productPrice {

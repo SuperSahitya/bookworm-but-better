@@ -134,6 +134,15 @@
   .name {
     font-size: 1.5rem;
   }
+  .logInNavButton{
+    background-color: #321e1e;
+    color: #f4f1e0;
+    font-weight: 400;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+  }
+  
 }
 
 .cartHeading {

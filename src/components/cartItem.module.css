@@ -42,7 +42,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .quantityDiv {
@@ -66,8 +66,8 @@
 
 .bookName {
   width: 100%;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 .quantityContainer {
@@ -88,7 +88,7 @@
 }
 
 .price {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.3rem;
 }
 
@@ -98,4 +98,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.authorName{
+font-size: 0.9rem;
 }

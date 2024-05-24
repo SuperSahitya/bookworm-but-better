@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import CartItem from "./CartItem";
 import { create } from "zustand";
 
+
 interface CartItem {
   userId?: string;
   id: string;
@@ -145,9 +146,9 @@ const Navbar = () => {
       const response = await fetch("/api/cart");
       const cartDataFromSever = (await response.json()) as cartFromServer[];
       console.log("cartDataFromServre", cartDataFromSever);
-      // console.log("before: ", cart);
+      console.log("before: ", cart);
       setCart(cartDataFromSever);
-      // console.log("after: ", cart);
+      console.log("after: ", cart);
     }
 
     try {
@@ -159,7 +160,7 @@ const Navbar = () => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     async function sendCartDataToserver() {
