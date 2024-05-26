@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
 import CartItem from "./CartItem";
 import { create } from "zustand";
-
+import { createCheckoutSession } from "~/app/action";
+import { useRouter } from "next/navigation";
 
 interface CartItem {
   userId?: string;
@@ -185,7 +186,15 @@ const Navbar = () => {
       console.log(e);
     }
   }, [cart]);
-  console.log(cart);
+  const router = useRouter();
+  // console.log(cart);
+  const handleCheckout = async () => {
+    //4000003560000008
+    const url = await createCheckoutSession({ ird: "hello" });
+    if (url) {
+      router.push(url.url!);
+    }
+  };
   return (
     <>
       {overlayOpen && <div className={styles.overlay} onClick={closeAll}></div>}
@@ -316,13 +325,18 @@ const Navbar = () => {
                       <div className={styles.subtotalHeading}>SUBTOTAL</div>
                       <div
                         className={styles.subtotalPrice}
-                      >{`$${totalPrice.toFixed(2)}`}</div>
+                      >{`₹${totalPrice.toFixed(2)}`}</div>
                     </div>
                     <div className={styles.shippingContainer}>
                       <div className={styles.shippingHeading}>Shipping</div>
-                      <div className={styles.shipping}>$0.00</div>
+                      <div className={styles.shipping}>₹0.00</div>
                     </div>
-                    <div className={styles.checkoutButton}>CHECKOUT</div>
+                    <div
+                      className={styles.checkoutButton}
+                      onClick={handleCheckout}
+                    >
+                      CHECKOUT
+                    </div>
                   </div>
                 )}
               </div>

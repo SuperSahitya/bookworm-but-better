@@ -1,7 +1,10 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
+  date,
   index,
   integer,
+  jsonb,
   pgTableCreator,
   primaryKey,
   real,
@@ -145,4 +148,17 @@ export const cart = createTable("cart", {
   price: real("price").notNull(),
   imageUrl: varchar("imageUrl", { length: 255 }).notNull(),
   quantity: integer("quantity").notNull(),
+});
+
+export const order = createTable("order", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => user.id),
+  items: jsonb("items").notNull(),
+  paymentStatus: boolean("paymentStatus").notNull(),
+  orderedAt: timestamp("orderedAt", {
+    precision: 6,
+    withTimezone: true,
+  }).defaultNow(),
 });

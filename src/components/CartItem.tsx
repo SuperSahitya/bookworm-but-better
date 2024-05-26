@@ -112,7 +112,7 @@ const CartItem = ({
             <div className={styles.bookName}>{bookName}</div>
             <div className={styles.authorName}>{authorName}</div>
           </div>
-          <div className={styles.price}>{`$${price.toFixed(2)}`}</div>
+          <div className={styles.price}>{`₹${price.toFixed(2)}`}</div>
         </div>
         <div className={styles.quantityDiv}>
           <div className={styles.quantityContainer}>

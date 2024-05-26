@@ -32,7 +32,7 @@ const Card = ({
             <div className={styles.bookName}>{bookName}</div>
             <div className={styles.author}>{author}</div>
           </div>
-          <div className={styles.price}>{`$${price.toFixed(2)}`}</div>
+          <div className={styles.price}>{`₹${price.toFixed(2)}`}</div>
         </div>
       </div>
     </Link>

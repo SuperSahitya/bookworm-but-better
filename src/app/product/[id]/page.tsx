@@ -133,7 +133,7 @@ const Product = ({ params }: { params: { id: number } }) => {
                 {data.description}
               </div>
               {data?.price && (
-                <div className={styles.productPrice}>{`$${data.price.toFixed(
+                <div className={styles.productPrice}>{`₹${data.price.toFixed(
                   2
                 )}`}</div>
               )}
