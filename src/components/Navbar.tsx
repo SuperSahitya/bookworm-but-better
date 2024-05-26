@@ -97,6 +97,7 @@ const Navbar = () => {
   const totalPrice = useCartStore(totalPriceSelector);
 
   const { cart } = useCartStore();
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
 
   const [isOpen, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -190,10 +191,12 @@ const Navbar = () => {
   // console.log(cart);
   const handleCheckout = async () => {
     //4000003560000008
-    const url = await createCheckoutSession({ ird: "hello" });
+    setLoadingCheckout(true);
+    const url = await createCheckoutSession();
     if (url) {
       router.push(url.url!);
     }
+    setLoadingCheckout(false);
   };
   return (
     <>
@@ -335,7 +338,7 @@ const Navbar = () => {
                       className={styles.checkoutButton}
                       onClick={handleCheckout}
                     >
-                      CHECKOUT
+                      {loadingCheckout ? "LOADING..." : "CHECKOUT"}
                     </div>
                   </div>
                 )}

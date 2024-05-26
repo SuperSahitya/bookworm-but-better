@@ -161,4 +161,5 @@ export const order = createTable("order", {
     precision: 6,
     withTimezone: true,
   }).defaultNow(),
+  address: text("address"),
 });
