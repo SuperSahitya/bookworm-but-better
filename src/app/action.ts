@@ -51,7 +51,6 @@ export const createCheckoutSession = async () => {
           paymentStatus: false,
         };
 
-        // console.log(orderDetails);
         const savedOrder = await db
           .insert(order)
           .values({
@@ -92,7 +91,6 @@ export const createCheckoutSession = async () => {
             },
             line_items: stripeProducts,
           });
-          // console.log(stripeSession.url);
           return { url: stripeSession.url };
         }
       } else {

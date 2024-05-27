@@ -185,7 +185,8 @@ const Navbar = () => {
   }, [cart]);
   const router = useRouter();
   const handleCheckout = async () => {
-    //4000003560000008
+    //to-do: block checkout if out of stocks
+    //test-card: 4000003560000008
     setLoadingCheckout(true);
     const url = await createCheckoutSession();
     if (url) {

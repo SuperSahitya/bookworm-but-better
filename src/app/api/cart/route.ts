@@ -4,7 +4,6 @@ import { authOptions } from "~/server/auth";
 import { db } from "~/server/db";
 import { cart, user } from "~/server/db/schema";
 import { and, eq } from "drizzle-orm";
-// import CartItem from "~/components/CartItem";
 
 interface CartItem {
   userId?: string | null;
@@ -27,7 +26,6 @@ export async function GET(request: NextRequest) {
   });
   const id: string = userData!.id;
   const cartItems = await db.select().from(cart).where(eq(cart.userId, id));
-  // console.log(cartItems);
   return NextResponse.json(cartItems);
 }
 
@@ -60,7 +58,6 @@ export async function POST(request: NextRequest) {
       }
     }
   }
-  // console.log(cartArray);
   return NextResponse.json(await db.select().from(cart));
 }
 
