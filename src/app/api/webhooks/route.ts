@@ -12,8 +12,11 @@ export async function POST(request: NextRequest) {
   try {
     const secret = process.env.STRIPE_WEBHOOK_SECRET!;
     const body = await request.text();
-    const signature = request.headers.get("stripe-signature")
-    // const signature = headers().get("stripe-signature");
+    const signature = request.headers.get("stripe-signature");
+    const sign = headers().get("stripe-signature");
+    console.log(body);
+    console.log(signature);
+    console.log(sign);
 
     if (!signature) {
       return new Response("Invalid Signature.", { status: 400 });
@@ -23,6 +26,7 @@ export async function POST(request: NextRequest) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
+      console.log("checkout.session.completed")
 
       const { userId, orderId } = session.metadata ?? {
         userId: null,

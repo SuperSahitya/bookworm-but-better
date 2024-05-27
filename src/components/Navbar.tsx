@@ -147,10 +147,10 @@ const Navbar = () => {
     async function getCart() {
       const response = await fetch("/api/cart");
       const cartDataFromSever = (await response.json()) as cartFromServer[];
-      console.log("cartDataFromServre", cartDataFromSever);
-      console.log("before: ", cart);
+      // console.log("cartDataFromServre", cartDataFromSever);
+      // console.log("before: ", cart);
       setCart(cartDataFromSever);
-      console.log("after: ", cart);
+      // console.log("after: ", cart);
     }
 
     try {
