@@ -12,7 +12,8 @@ export async function POST(request: NextRequest) {
   try {
     const secret = process.env.STRIPE_WEBHOOK_SECRET!;
     const body = await request.text();
-    const signature = headers().get("stripe-signature");
+    const signature = request.headers.get("stripe-signature")
+    // const signature = headers().get("stripe-signature");
 
     if (!signature) {
       return new Response("Invalid Signature.", { status: 400 });
