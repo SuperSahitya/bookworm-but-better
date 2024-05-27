@@ -1,4 +1,4 @@
-import bookList from "books";
+import { booksListArrayDetail } from "newBooks";
 import { PgTable, TableConfig } from "drizzle-orm/pg-core";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "~/server/db";
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await db.insert(books).values(bookList);
+    await db.insert(books).values(booksListArrayDetail);
     const result = await db.query.books.findMany();
     return NextResponse.json(result);
   } catch (e) {

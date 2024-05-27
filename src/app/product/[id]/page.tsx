@@ -41,7 +41,7 @@ const Product = ({ params }: { params: { id: number } }) => {
     async function getData() {
       try {
         const result = await fetch(
-          `http://localhost:3000/api/product/${params.id}`
+          `/api/product/${params.id}`
         );
         const fetchedData: Data[] = (await result.json()) as Data[];
         const bookData = fetchedData[0];
