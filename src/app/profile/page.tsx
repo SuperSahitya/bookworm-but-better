@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import styles from "./page.module.css";
@@ -16,7 +16,7 @@ const ProfilePage = () => {
             <Profile></Profile>
           </div>
         )}
-        {!session && <Link href="/api/auth/login"></Link>}
+        {!session && <div onClick={() => signIn()}></div>}
       </>
     );
   }

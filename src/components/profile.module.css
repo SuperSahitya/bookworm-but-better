@@ -14,7 +14,7 @@
 .image {
   height: 20%;
   min-height: 70px;
-  max-width: 50% ;
+  max-width: 50%;
   aspect-ratio: 1;
   overflow: hidden;
   background-repeat: no-repeat;
@@ -42,6 +42,7 @@
   color: #f4f1e0;
   font-weight: 400;
   padding: 5px 10px;
+  cursor: pointer;
 }
 
 .userName {

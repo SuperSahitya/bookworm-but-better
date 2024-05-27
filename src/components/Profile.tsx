@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import styles from "./profile.module.css";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -31,13 +31,13 @@ const Profile = () => {
           )}
         </div>
         {session ? (
-          <Link href={"/api/auth/signout"} className={styles.logButton}>
+          <div className={styles.logButton} onClick={() => signOut()}>
             Log Out
-          </Link>
+          </div>
         ) : (
-          <Link href={"/api/auth/signin"} className={styles.logButton}>
+          <div className={styles.logButton} onClick={() => signIn()}>
             Log In
-          </Link>
+          </div>
         )}
       </div>
     </>

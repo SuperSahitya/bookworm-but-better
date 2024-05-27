@@ -76,6 +76,7 @@
   padding: 6px 12px;
   font-size: 1rem;
   margin-right: 0.5rem;
+  cursor: pointer;
 }
 
 @media (max-width: 550px) {
@@ -274,6 +275,7 @@
   align-items: center;
   font-size: 2rem;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .logButton {
@@ -281,6 +283,7 @@
   color: #f4f1e0;
   font-weight: 400;
   padding: 5px 10px;
+  cursor: pointer;
 }
 
 @media (max-width: 550px) {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from "./navbar.module.css";
 import { ImCross } from "react-icons/im";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import CartItem from "./CartItem";
 import { create } from "zustand";
 import { createCheckoutSession } from "~/app/action";
@@ -206,9 +206,12 @@ const Navbar = () => {
           </div>
           <div className={styles.cartDataContainer}>
             {!session ? (
-              <Link href={"/api/auth/signin"} className={styles.logInNavButton}>
+              <div
+                className={styles.logInNavButton}
+                onClick={() => signIn("google")}
+              >
                 Log In
-              </Link>
+              </div>
             ) : (
               <Link className={styles.loginButton} href={"/profile"}>
                 <FaUserCircle />
@@ -235,13 +238,17 @@ const Navbar = () => {
                 <Link href={"/"} onClick={handleClick}>
                   Home
                 </Link>
-                <Link
-                  className={styles.links}
-                  href={session ? "/profile" : "/api/auth/signin"}
-                  onClick={handleClick}
-                >
-                  My Account
-                </Link>
+                {session ? (
+                  <Link
+                    className={styles.links}
+                    href={"/profile"}
+                    onClick={handleClick}
+                  >
+                    My Account
+                  </Link>
+                ) : (
+                  ""
+                )}
                 <Link href={"/orders"} onClick={handleClick}>
                   My Orders
                 </Link>
@@ -255,9 +262,9 @@ const Navbar = () => {
                   Contact
                 </Link>
                 {session ? (
-                  <Link href={"/api/auth/signout"} className={styles.logButton}>
+                  <div className={styles.logButton} onClick={() => signOut()}>
                     Log Out
-                  </Link>
+                  </div>
                 ) : (
                   <Link
                     href={"/login"}
@@ -285,9 +292,8 @@ const Navbar = () => {
                 x: "100vw",
               }}
             >
-              
               <div className={styles.closeCart}>
-              <div>My Cart</div>
+                <div>My Cart</div>
                 <ImCross onClick={handleCartClick} />
               </div>
               <div className={styles.cartItems}>
