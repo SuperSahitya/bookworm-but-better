@@ -81,8 +81,8 @@ export const createCheckoutSession = async () => {
 
         if (savedOrder) {
           const stripeSession = await stripe.checkout.sessions.create({
-            success_url: "http://localhost:3000/thank-you",
-            cancel_url: "http://localhost:3000/",
+            success_url: "https://bookworm-cyan.vercel.app/thank-you",
+            cancel_url: "https://bookworm-cyan.vercel.app/",
             payment_method_types: ["card"],
             mode: "payment",
             shipping_address_collection: { allowed_countries: ["IN"] },
