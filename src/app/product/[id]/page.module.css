@@ -112,6 +112,7 @@
   font-weight: 500;
   letter-spacing: -1px;
   word-spacing: 4px;
+  cursor: default;
 }
 
 .bookmark {
