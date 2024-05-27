@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "~/helper/stripe";
 import dotenv from "dotenv";
 import { db } from "~/server/db";
-import { order } from "~/server/db/schema";
-import { sql } from "drizzle-orm";
+import { books, order } from "~/server/db/schema";
+import { eq, sql } from "drizzle-orm";
 
 dotenv.config();
 
@@ -12,12 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const secret = process.env.STRIPE_WEBHOOK_SECRET!;
     const body = await request.text();
-    // const payload = await request.json();
     const signature = request.headers.get("stripe-signature");
-    // const sign = headers().get("stripe-signature");
-    // console.log("body: ", body);
-    // console.log("signature: ", signature);
-    // console.log("sign: ", sign);
 
     if (!signature) {
       return new Response("Invalid Signature.", { status: 400 });
@@ -27,7 +22,6 @@ export async function POST(request: NextRequest) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-      // console.log("checkout.session.completed");
 
       const { userId, orderId } = session.metadata ?? {
         userId: null,
@@ -40,15 +34,36 @@ export async function POST(request: NextRequest) {
 
       const billingAdress = session.customer_details!.address;
       const shippingAddress = session.shipping_details!.address!;
-      // console.log(shippingAddress);
 
+      const myOrder = await db
+  .update(order)
+  .set({
+    address: JSON.stringify(shippingAddress),
+    paymentStatus: true,
+  })
+  .where(sql`${order.id} = ${orderId}`)
+  .returning();
+
+interface Item {
+  bookName: string;
+  bookId: string;
+  quantity: number;
+  unit_price: number;
+}
+
+if (myOrder.length > 0 && typeof myOrder[0]!.items === 'string') {
+  const itemOrder: Item[] = JSON.parse(myOrder[0]!.items) as Item[];
+  for (const item of itemOrder) {
+    const booksArray = await db.select().from(books).where(eq(books.id, Number(item.bookId)));
+    if (booksArray.length > 0) {
+      const book = booksArray[0];
       await db
-        .update(order)
-        .set({
-          address: JSON.stringify(shippingAddress),
-          paymentStatus: true,
-        })
-        .where(sql`${order.id} = ${orderId}`);
+        .update(books)
+        .set({ stock: (book!.stock - item.quantity) })
+        .where(eq(books.id, Number(item.bookId)));
+    }
+  }
+}
       return NextResponse.json({ event: event, ok: true });
     }
   } catch (error) {
