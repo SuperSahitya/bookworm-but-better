@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "~/helper/stripe";
 import dotenv from "dotenv";
-import Stripe from "stripe";
 import { db } from "~/server/db";
 import { order } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
