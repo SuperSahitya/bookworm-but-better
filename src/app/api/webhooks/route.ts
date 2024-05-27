@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-      console.log("checkout.session.completed")
+      console.log("checkout.session.completed");
 
       const { userId, orderId } = session.metadata ?? {
         userId: null,
@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
 
       const billingAdress = session.customer_details!.address;
       const shippingAddress = session.shipping_details!.address!;
+      console.log(shippingAddress);
 
       await db
         .update(order)
