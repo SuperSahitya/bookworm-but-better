@@ -1,7 +1,6 @@
 .container {
   width: 20vw;
   height: 40vh;
-  /* background-color: aqua; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -9,6 +8,7 @@
   padding: 3vh;
   border: 2px solid #321e1e;
   min-width: 350px;
+  cursor: pointer;
 }
 .image {
   height: 70%;

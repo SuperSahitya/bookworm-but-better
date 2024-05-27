@@ -147,19 +147,15 @@ const Navbar = () => {
     async function getCart() {
       const response = await fetch("/api/cart");
       const cartDataFromSever = (await response.json()) as cartFromServer[];
-      // console.log("cartDataFromServre", cartDataFromSever);
-      // console.log("before: ", cart);
       setCart(cartDataFromSever);
-      // console.log("after: ", cart);
     }
 
     try {
       if (session?.user.email) {
         getCart().catch((e) => console.log(e));
       }
-      // console.log("end:", cart);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }, [session]);
 
@@ -188,7 +184,6 @@ const Navbar = () => {
     }
   }, [cart]);
   const router = useRouter();
-  // console.log(cart);
   const handleCheckout = async () => {
     //4000003560000008
     setLoadingCheckout(true);
@@ -210,9 +205,6 @@ const Navbar = () => {
           </div>
           <div className={styles.cartDataContainer}>
             {!session ? (
-              // <Link className={styles.loginButton} href={"/login"}>
-              //   <FaUserCircle />
-              // </Link>
               <Link href={"/api/auth/signin"} className={styles.logInNavButton}>
                 Log In
               </Link>
@@ -222,10 +214,6 @@ const Navbar = () => {
               </Link>
             )}
             <div className={styles.cart} onClick={handleCartClick}></div>
-            {/* <div>{`[${cart.reduce(
-              (num, item) => num + item.quantity,
-              0
-            )}]`}</div> */}
           </div>
         </div>
         <AnimatePresence>
@@ -296,13 +284,11 @@ const Navbar = () => {
                 x: "100vw",
               }}
             >
+              
               <div className={styles.closeCart}>
+              <div>My Cart</div>
                 <ImCross onClick={handleCartClick} />
               </div>
-              {/* <div className={styles.cartHeading}>{`CART [${cart.reduce(
-                (num, item) => num + item.quantity,
-                0
-              )}]`}</div> */}
               <div className={styles.cartItems}>
                 {cart.map((item) => {
                   return (
@@ -321,7 +307,11 @@ const Navbar = () => {
                 <div className={styles.border}></div>
                 {cart.length == 0 ? (
                   //fix this
-                  <h1>No Books In The Shelf?</h1>
+                  <div className={styles.noBookContainer}>
+                    <h2 className={styles.noBookCart}>
+                      You have no books in your cart.
+                    </h2>
+                  </div>
                 ) : (
                   <div className={styles.checkoutContainer}>
                     <div className={styles.subtotalContainer}>
@@ -338,7 +328,7 @@ const Navbar = () => {
                       className={styles.checkoutButton}
                       onClick={handleCheckout}
                     >
-                      {loadingCheckout ? "LOADING..." : "CHECKOUT"}
+                      {loadingCheckout ? "LOADING ..." : "CHECKOUT"}
                     </div>
                   </div>
                 )}

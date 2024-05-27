@@ -69,7 +69,7 @@
   /* padding: 50px; */
 }
 
-.logInNavButton{
+.logInNavButton {
   background-color: #321e1e;
   color: #f4f1e0;
   font-weight: 400;
@@ -134,7 +134,7 @@
   .name {
     font-size: 1.5rem;
   }
-  .logInNavButton{
+  .logInNavButton {
     background-color: #321e1e;
     color: #f4f1e0;
     font-weight: 400;
@@ -142,7 +142,6 @@
     font-size: 0.9rem;
     margin-right: 0.5rem;
   }
-  
 }
 
 .cartHeading {
@@ -157,8 +156,9 @@
   width: 100%;
   padding: 1.2rem 30px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   font-size: 1.3rem;
+  font-weight: 600;
 }
 
 @media (min-height: 800px) {
@@ -188,6 +188,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .subtotalContainer {
@@ -220,6 +221,16 @@
 }
 .shipping {
   font-size: 1.1rem;
+}
+
+.noBookContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  padding: 3rem;
+  text-align: center;
 }
 
 @media (max-width: 800px) {
@@ -272,8 +283,8 @@
   padding: 5px 10px;
 }
 
-@media (max-width: 550px){
-  .subtotalContainer{
+@media (max-width: 550px) {
+  .subtotalContainer {
     font-size: 1rem;
   }
 }
