@@ -25,64 +25,11 @@ const CartItem = ({
   imageUrl,
   quantity,
 }: cartItemProps) => {
-  const { removeItemFromCart } = useCartStore();
-  const { cart } = useCartStore();
+  const { cart, setCart, removeItemFromCart } = useCartStore();
   const handleRemove = async () => {
+    const previousCart = cart;
     removeItemFromCart(id);
-    const res = await fetch("/api/cart", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
-    // console.log(cart);
-  };
-
-  const { updateQuantity } = useCartStore();
-  const { data: session, status } = useSession();
-  const handleQuantityChange = async (id: string, u: Updation) => {
-    const newQuantity = u === Updation.Increase ? quantity + 1 : quantity - 1;
-
-    if (newQuantity > 0) {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify([
-          {
-            userId: session?.user.id,
-            id: id,
-            name: bookName,
-            author: authorName,
-            price: price,
-            imageUrl: imageUrl,
-            quantity: newQuantity,
-          },
-        ]),
-      });
-      // console.log({
-      //   userId: session?.user.id,
-      //   id: id,
-      //   bookName: bookName,
-      //   authorName: authorName,
-      //   price: price,
-      //   imageUrl: imageUrl,
-      //   quantity: newQuantity,
-      // });
-      // console.log("senderred", await res.json());
-
-      if (res.ok) {
-        updateQuantity(id, u);
-        // console.log({
-        //   bookName: bookName,
-        //   quantity: newQuantity,
-        // });
-      } else {
-        console.error("Failed to update quantity in the database");
-      }
-    } else {
+    try {
       const res = await fetch("/api/cart", {
         method: "DELETE",
         headers: {
@@ -90,11 +37,69 @@ const CartItem = ({
         },
         body: JSON.stringify({ id }),
       });
+      if (!res.ok) {
+        setCart(previousCart);
+      }
+    } catch (error) {
+      console.error("Failed to remove items from the database.", error);
+      setCart(cart);
+    }
+  };
 
-      if (res.ok) {
-        updateQuantity(id, u);
-      } else {
-        console.error("Failed to remove item from the database");
+  const { updateQuantity } = useCartStore();
+  const { data: session, status } = useSession();
+
+  const handleQuantityChange = async (id: string, u: Updation) => {
+    const newQuantity = u === Updation.Increase ? quantity + 1 : quantity - 1;
+    const previousCart = cart;
+
+    if (newQuantity > 0) {
+      updateQuantity(id, u);
+      try {
+        const res = await fetch("/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify([
+            {
+              userId: session?.user.id,
+              id: id,
+              name: bookName,
+              author: authorName,
+              price: price,
+              imageUrl: imageUrl,
+              quantity: newQuantity,
+            },
+          ]),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to update quantity in the database");
+          setCart(previousCart);
+        }
+      } catch (error) {
+        console.error("Failed to update quantity in the database", error);
+        setCart(previousCart);
+      }
+    } else {
+      updateQuantity(id, u);
+      try {
+        const res = await fetch("/api/cart", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        });
+
+        if (!res.ok) {
+          console.error("Failed to remove item from the database");
+          setCart(previousCart);
+        }
+      } catch (error) {
+        console.error("Failed to remove item from the database", error);
+        setCart(previousCart);
       }
     }
   };

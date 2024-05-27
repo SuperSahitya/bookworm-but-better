@@ -14,10 +14,10 @@ export async function POST(request: NextRequest) {
     const body = await request.text();
     // const payload = await request.json();
     const signature = request.headers.get("stripe-signature");
-    const sign = headers().get("stripe-signature");
-    console.log("body: ", body);
-    console.log("signature", signature);
-    console.log("sign", sign);
+    // const sign = headers().get("stripe-signature");
+    // console.log("body: ", body);
+    // console.log("signature: ", signature);
+    // console.log("sign: ", sign);
 
     if (!signature) {
       return new Response("Invalid Signature.", { status: 400 });
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-      console.log("checkout.session.completed");
+      // console.log("checkout.session.completed");
 
       const { userId, orderId } = session.metadata ?? {
         userId: null,
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
 
       const billingAdress = session.customer_details!.address;
       const shippingAddress = session.shipping_details!.address!;
-      console.log(shippingAddress);
+      // console.log(shippingAddress);
 
       await db
         .update(order)
