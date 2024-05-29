@@ -78,9 +78,11 @@ export const createCheckoutSession = async () => {
           })
         );
 
-        if (savedOrder) {
+        if (savedOrder && savedOrder.length > 0) {
           const stripeSession = await stripe.checkout.sessions.create({
-            success_url: "https://bookworm-cyan.vercel.app/thank-you",
+            success_url: `https://bookworm-cyan.vercel.app/thank-you/${
+              savedOrder[0]!.id
+            }`,
             cancel_url: "https://bookworm-cyan.vercel.app/",
             payment_method_types: ["card"],
             mode: "payment",
