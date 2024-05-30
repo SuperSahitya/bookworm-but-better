@@ -257,6 +257,7 @@
   font-weight: 500;
   font-size: 0.4rem;
   padding-bottom: 0.6rem;
+  position: relative;
 }
 .cartDataContainer {
   display: flex;
@@ -290,4 +291,14 @@
   .subtotalContainer {
     font-size: 1rem;
   }
+}
+
+.cartQuantity {
+  background-color: transparent;
+  font-weight: 400;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, -150%);
+  font-size: 0.8rem;
 }

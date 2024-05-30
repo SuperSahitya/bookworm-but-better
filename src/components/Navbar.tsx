@@ -63,7 +63,9 @@ export const useCartStore = create<UseCartStore>((set, get) => ({
     })),
   removeItemFromCart: (id) => {
     let cart = get().cart;
-    cart = cart.filter((c) => c.id != id);
+    cart = cart.filter((c) => {
+      c.id != id;
+    });
     set({ cart });
   },
   totalPrice: () => {
@@ -217,7 +219,13 @@ const Navbar = () => {
                 <FaUserCircle />
               </Link>
             )}
-            <div className={styles.cart} onClick={handleCartClick}></div>
+            <div className={styles.cart} onClick={handleCartClick}>
+              <div className={styles.cartQuantity}>
+                {cart.reduce((num, item) => num + item.quantity, 0)
+                  ? cart.reduce((num, item) => num + item.quantity, 0)
+                  : ""}
+              </div>
+            </div>
           </div>
         </div>
         <AnimatePresence>
