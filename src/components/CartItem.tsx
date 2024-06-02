@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import styles from "./cartItem.module.css";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Updation, useCartStore } from "./Navbar";
 import { useSession } from "next-auth/react";
 
@@ -11,6 +11,16 @@ interface cartItemProps {
   id: string;
   bookName: string;
   authorName: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+}
+
+interface CartItemIdx {
+  userId?: string;
+  id: string;
+  name: string;
+  author: string;
   price: number;
   imageUrl: string;
   quantity: number;
@@ -29,61 +39,7 @@ const CartItem = ({
   const handleRemove = async () => {
     const previousCart = cart;
     removeItemFromCart(id);
-    try {
-      const res = await fetch("/api/cart", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
-      if (!res.ok) {
-        setCart(previousCart);
-      }
-    } catch (error) {
-      console.error("Failed to remove items from the database.", error);
-      setCart(cart);
-    }
-  };
-
-  const { updateQuantity } = useCartStore();
-  const { data: session, status } = useSession();
-
-  const handleQuantityChange = async (id: string, u: Updation) => {
-    const newQuantity = u === Updation.Increase ? quantity + 1 : quantity - 1;
-    const previousCart = cart;
-
-    if (newQuantity > 0) {
-      updateQuantity(id, u);
-      try {
-        const res = await fetch("/api/cart", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify([
-            {
-              userId: session?.user.id,
-              id: id,
-              name: bookName,
-              author: authorName,
-              price: price,
-              imageUrl: imageUrl,
-              quantity: newQuantity,
-            },
-          ]),
-        });
-
-        if (!res.ok) {
-          console.error("Failed to update quantity in the database");
-          setCart(previousCart);
-        }
-      } catch (error) {
-        console.error("Failed to update quantity in the database", error);
-        setCart(previousCart);
-      }
-    } else {
-      updateQuantity(id, u);
+    if (session && session.user && session.user.id) {
       try {
         const res = await fetch("/api/cart", {
           method: "DELETE",
@@ -92,17 +48,74 @@ const CartItem = ({
           },
           body: JSON.stringify({ id }),
         });
-
         if (!res.ok) {
-          console.error("Failed to remove item from the database");
           setCart(previousCart);
         }
       } catch (error) {
-        console.error("Failed to remove item from the database", error);
+        console.error("Failed to remove items from the database.", error);
         setCart(previousCart);
       }
     }
   };
+
+  const { updateQuantity } = useCartStore();
+  const { data: session, status } = useSession();
+
+  const handleQuantityChange = async (id: string, u: Updation) => {
+    const newQuantity = u === Updation.Increase ? quantity + 1 : quantity - 1;
+    const previousCart = JSON.parse(JSON.stringify(cart)) as CartItemIdx[];
+    // const previousCart = cart
+    updateQuantity(id, u);
+
+    if (session && session.user && session.user.id) {
+      if (newQuantity > 0) {
+        try {
+          const res = await fetch("/api/cart", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify([
+              {
+                userId: session.user.id,
+                id,
+                name: bookName,
+                author: authorName,
+                price,
+                imageUrl,
+                quantity: newQuantity,
+              },
+            ]),
+          });
+
+          if (!res.ok) {
+            setCart(previousCart);
+          }
+        } catch (error) {
+          console.error("Failed to update quantity in the database", error);
+          setCart(previousCart);
+        }
+      } else {
+        try {
+          const res = await fetch("/api/cart", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id }),
+          });
+
+          if (!res.ok) {
+            setCart(previousCart);
+          }
+        } catch (error) {
+          console.error("Failed to remove item from the database", error);
+          setCart(previousCart);
+        }
+      }
+    }
+  };
+
   return (
     <div className={styles.cartItem}>
       <div className={styles.imageContainer}>

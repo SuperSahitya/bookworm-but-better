@@ -177,12 +177,17 @@ const Navbar = () => {
       });
     }
 
+    const previousCart = cart;
     try {
       if (session?.user) {
-        sendCartDataToserver().catch((e) => console.log(e));
+        sendCartDataToserver().catch((e) => {
+          console.log(e);
+          setCart(previousCart);
+        });
       }
     } catch (e) {
       console.log(e);
+      setCart(previousCart);
     }
   }, [cart]);
   const router = useRouter();
