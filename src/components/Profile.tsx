@@ -31,18 +31,7 @@ const Profile = () => {
           )}
         </div>
         {session ? (
-          <div
-            className={styles.logButton}
-            onClick={async () => {
-              try {
-                await signOut();
-                localStorage.setItem("guestCart", JSON.stringify([]));
-                console.log("hello");
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-          >
+          <div className={styles.logButton} onClick={() => signOut()}>
             Log Out
           </div>
         ) : (

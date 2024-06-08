@@ -55,12 +55,6 @@ const CartItem = ({
         console.error("Failed to remove items from the database.", error);
         setCart(previousCart);
       }
-    } else {
-      try {
-        localStorage.setItem("guestCart", JSON.stringify(cart));
-      } catch (error) {
-        console.error("An Error Occured While Saving Cart: ", error);
-      }
     }
   };
 
@@ -118,12 +112,6 @@ const CartItem = ({
           console.error("Failed to remove item from the database", error);
           setCart(previousCart);
         }
-      }
-    } else {
-      try {
-        localStorage.setItem("guestCart", JSON.stringify(cart));
-      } catch (error) {
-        console.error("An Error Occured While Saving Cart: ", error);
       }
     }
   };
