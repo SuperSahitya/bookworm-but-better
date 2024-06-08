@@ -155,6 +155,17 @@ const Navbar = () => {
     try {
       if (session?.user.email) {
         getCart().catch((e) => console.log(e));
+      } else {
+        try {
+          const guestCart = localStorage.getItem("guestCart");
+          if (guestCart) {
+            const localCart = JSON.parse(guestCart) as CartItem[];
+            setCart(localCart);
+            localStorage.setItem("guestCart", JSON.stringify([]));
+          }
+        } catch (error) {
+          console.error("An Error Occured While Saving Cart: ", error);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -182,11 +193,19 @@ const Navbar = () => {
       if (session?.user) {
         sendCartDataToserver().catch((e) => {
           console.log(e);
-          setCart(previousCart);
+          setCart(
+            previousCart
+          );
         });
+      } else {
+        try {
+          localStorage.setItem("guestCart", JSON.stringify(cart));
+        } catch (error) {
+          console.error("An Error Occured While Saving Cart: ", error);
+        }
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setCart(previousCart);
     }
   }, [cart]);
@@ -275,7 +294,18 @@ const Navbar = () => {
                   Contact
                 </Link>
                 {session ? (
-                  <div className={styles.logButton} onClick={() => signOut()}>
+                  <div
+                    className={styles.logButton}
+                    onClick={async () => {
+                      try {
+                        await signOut();
+                        localStorage.removeItem("guestCart");
+                        console.log("hello");
+                      } catch (error) {
+                        console.log(error);
+                      }
+                    }}
+                  >
                     Log Out
                   </div>
                 ) : (
