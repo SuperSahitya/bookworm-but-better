@@ -80,7 +80,7 @@ export const createCheckoutSession = async () => {
 
         if (savedOrder && savedOrder.length > 0) {
           const stripeSession = await stripe.checkout.sessions.create({
-            success_url: `https://bookworm-cyan.vercel.app/orders/${
+            success_url: `https://bookworm-cyan.vercel.app/orders?id=${
               savedOrder[0]!.id
             }`,
             cancel_url: "https://bookworm-cyan.vercel.app/",

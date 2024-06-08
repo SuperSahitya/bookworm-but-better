@@ -1,0 +1,99 @@
+.container {
+  border-top: 1px solid #321e1e;
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+}
+
+.imageContainer {
+  height: 150px;
+  aspect-ratio: 467/700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  /* background-image: url("../../public/books/1984.jpeg"); */
+  height: 70%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  aspect-ratio: 467/700;
+  background-position: center;
+}
+
+.dataContainer {
+  /* padding: 30px; */
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.quantityDiv {
+  margin-top: 10px;
+  display: flex;
+  /* padding: 30px; */
+  align-items: center;
+  /* justify-content: center; */
+  width: 100%;
+}
+
+.quantityContainer {
+  display: flex;
+}
+
+.cartDataContainer {
+  height: 100%;
+  width: calc(100% - 100px);
+  padding: 20px;
+}
+
+.bookName {
+  width: 100%;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.quantityContainer {
+  border: 2px solid #321e1e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.quantity {
+  padding: 5px 10px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+
+.authorName {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 550px) {
+  .authorName {
+    font-size: 0.7rem;
+  }
+  .bookName {
+    font-size: 0.9rem;
+  }
+  .price {
+    font-size: 1rem;
+  }
+}
