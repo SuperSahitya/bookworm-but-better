@@ -63,9 +63,7 @@ export const useCartStore = create<UseCartStore>((set, get) => ({
     })),
   removeItemFromCart: (id) => {
     let cart = get().cart;
-    cart = cart.filter((c) => {
-      c.id != id;
-    });
+    cart = cart.filter((c) => c.id !== id);
     set({ cart });
   },
   totalPrice: () => {
