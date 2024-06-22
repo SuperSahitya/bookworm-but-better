@@ -13,3 +13,22 @@
     margin-top: 80px;
   }
 }
+
+.loaderContainer {
+  margin-top: 10vh;
+  width: 100vw;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("../../public/loading.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.error {
+  color: brown;
+  font-weight: 600;
+  text-align: center;
+}

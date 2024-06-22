@@ -52,7 +52,6 @@ const Thanks = () => {
     <>
       <div className={styles.container}>
         <div className={styles.heading}>Orders</div>
-        {/* <OrderItem bookId={"111"} quantity={11} unit_price={1200}></OrderItem> */}
         {orders.map((order) => {
           const orderedAt = new Date(order.orderedAt!);
           return (
@@ -72,15 +71,6 @@ const Thanks = () => {
             </div>
           );
         })}
-        {/* {orders.map((order) =>
-          order.items.map((i) => (
-            <div key={i.bookId}>
-              <div>{i.bookName}</div>
-              <div>{i.unit_price}</div>
-              <div>{i.quantity}</div>
-            </div>
-          ))
-        )} */}
       </div>
     </>
   );

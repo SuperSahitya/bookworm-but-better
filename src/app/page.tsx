@@ -21,15 +21,18 @@ export default function Home() {
   };
 
   const [data, setData] = useState<Data[]>([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getData() {
       try {
+        setError("");
         const result = await fetch("/api/books");
         const dataArray: Data[] = (await result.json()) as Data[];
         setData(dataArray);
       } catch (error) {
+        setError("An unexpected error occurred while fetching books.");
         console.error("Failed to fetch books:", error);
       } finally {
         setLoading(false);
@@ -41,8 +44,10 @@ export default function Home() {
   return (
     <>
       <div className={styles.container}>
-        <Introduction></Introduction>
-        {!loading &&
+        {!error ? <Introduction></Introduction> : <div className={styles.error}>{error}</div>}
+        {loading ? (
+          <div className={styles.loaderContainer}></div>
+        ) : (
           data.map((m) => {
             return (
               <Link href={`/${m.id}`} key={m.id}>
@@ -57,7 +62,8 @@ export default function Home() {
                 ></Card>
               </Link>
             );
-          })}
+          })
+        )}
       </div>
     </>
   );
