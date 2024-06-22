@@ -8,18 +8,22 @@ import Link from "next/link";
 
 const ProfilePage = () => {
   const { data: session, status } = useSession();
-  if (session && session.user) {
-    return (
-      <>
-        {session && session.user && (
-          <div className={styles.container}>
-            <Profile></Profile>
+  return (
+    <>
+      {session && session.user && (
+        <div className={styles.container}>
+          <Profile></Profile>
+        </div>
+      )}
+      {!session && (
+        <div className={styles.container}>
+          <div className={styles.signInButton} onClick={() => signIn("google")}>
+            Log In
           </div>
-        )}
-        {!session && <div onClick={() => signIn()}></div>}
-      </>
-    );
-  }
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ProfilePage;
