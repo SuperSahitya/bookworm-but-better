@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { db } from "~/server/db";
 import OrderItem from "~/components/OrderItem";
+import Loading from "../loading";
 
 interface Items {
   bookId: string;
@@ -31,49 +32,64 @@ interface OrderFromServer {
   address?: string;
 }
 
-const Thanks = () => {
+const OrderPage = () => {
+  const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([] as Order[]);
   const { data: session, status } = useSession();
   async function getOrders() {
-    const response = await fetch("/api/orders");
-    const orderArray = (await response.json()) as OrderFromServer[];
-    setOrders(
-      orderArray.map((order) => ({
-        ...order,
-        items: JSON.parse(order.items) as Items[],
-      }))
-    );
+    if (status == "authenticated") {
+      setLoading(true);
+      const response = await fetch("/api/orders");
+      const orderArray = (await response.json()) as OrderFromServer[];
+      setOrders(
+        orderArray.map((order) => ({
+          ...order,
+          items: JSON.parse(order.items) as Items[],
+        }))
+      );
+      setLoading(false);
+    }
   }
   useEffect(() => {
     getOrders().catch((error) => console.error(error));
-  }, [session]);
+  }, [session, status]);
 
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.heading}>Orders</div>
-        {orders.map((order) => {
-          const orderedAt = new Date(order.orderedAt!);
-          return (
-            <div className={styles.orderContainer} key={order.id}>
-              <div className={styles.date}>
-                <strong>Ordered At: </strong>
-                {` ${orderedAt.toDateString()}  ${orderedAt.getHours()}:${orderedAt.getMinutes()}:${orderedAt.getSeconds()}`}
-              </div>
-              {order.items.map((i) => (
-                <OrderItem
-                  key={i.bookId}
-                  bookId={`${i.bookId}`}
-                  quantity={i.quantity}
-                  unit_price={i.unit_price}
-                />
-              ))}
-            </div>
-          );
-        })}
+        {loading && <Loading></Loading>}
+        {status != "authenticated" && (
+          <div className={styles.logIn} onClick={() => signIn("google")}>
+            Log In
+          </div>
+        )}
+        {session && session.user && (
+          <>
+            <div className={styles.heading}>Orders</div>
+            {orders.map((order) => {
+              const orderedAt = new Date(order.orderedAt!);
+              return (
+                <div className={styles.orderContainer} key={order.id}>
+                  <div className={styles.date}>
+                    <strong>Ordered At: </strong>
+                    {` ${orderedAt.toDateString()}  ${orderedAt.getHours()}:${orderedAt.getMinutes()}:${orderedAt.getSeconds()}`}
+                  </div>
+                  {order.items.map((i) => (
+                    <OrderItem
+                      key={i.bookId}
+                      bookId={`${i.bookId}`}
+                      quantity={i.quantity}
+                      unit_price={i.unit_price}
+                    />
+                  ))}
+                </div>
+              );
+            })}
+          </>
+        )}
       </div>
     </>
   );
 };
 
-export default Thanks;
+export default OrderPage;
