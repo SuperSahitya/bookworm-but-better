@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   gap: 4vh;
   padding: 4vh;
+  min-height: 80vh;
 }
 
 @media (min-height: 800px) {

@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Outfit, Rye } from "next/font/google";
 import AuthProvider from "~/auth/AuthProvider";
 import Navbar from "~/components/Navbar";
+import Footer from "~/components/Footer";
 
 const rye = Rye({ weight: ["400"], subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AuthProvider>
           <Navbar></Navbar>
           {children}
+          <Footer></Footer>
         </AuthProvider>
       </body>
     </html>
