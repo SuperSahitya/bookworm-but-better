@@ -6,20 +6,20 @@ import Link from "next/link";
 import Introduction from "~/components/Introduction";
 import Card from "~/components/Card";
 
-export default function Home() {
-  type Data = {
-    id: number;
-    name: string;
-    author: string;
-    year: number;
-    description: string;
-    price: number;
-    stock: number;
-    categories: string[];
-    details: string[];
-    imageUrl: string;
-  };
+export type Data = {
+  id: number;
+  name: string;
+  author: string;
+  year: number;
+  description: string;
+  price: number;
+  stock: number;
+  categories: string[];
+  details: string[];
+  imageUrl: string;
+};
 
+export default function Home() {
   const [data, setData] = useState<Data[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,11 @@ export default function Home() {
   return (
     <>
       <div className={styles.container}>
-        {!error ? <Introduction></Introduction> : <div className={styles.error}>{error}</div>}
+        {!error ? (
+          <Introduction></Introduction>
+        ) : (
+          <div className={styles.error}>{error}</div>
+        )}
         {loading ? (
           <div className={styles.loaderContainer}></div>
         ) : (
