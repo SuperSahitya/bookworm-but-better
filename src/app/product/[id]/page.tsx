@@ -40,9 +40,7 @@ const Product = ({ params }: { params: { id: number } }) => {
   useEffect(() => {
     async function getData() {
       try {
-        const result = await fetch(
-          `/api/product/${params.id}`
-        );
+        const result = await fetch(`/api/product/${params.id}`);
         const fetchedData: Data[] = (await result.json()) as Data[];
         const bookData = fetchedData[0];
 
@@ -133,12 +131,13 @@ const Product = ({ params }: { params: { id: number } }) => {
                   2
                 )}`}</div>
               )}
-              <div
+              <button
                 className={styles.addToCart}
+                disabled={data.stock > 0 ? false : true}
                 onClick={() => handleAddToCart(data)}
               >
                 ADD TO CART
-              </div>
+              </button>
               <div className={styles.methodToBuy}>
                 typically ships in{" "}
                 <span className={styles.payLater}>3 - 5 days</span>

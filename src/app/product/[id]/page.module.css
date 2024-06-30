@@ -105,6 +105,13 @@
   letter-spacing: -1px;
   word-spacing: 4px;
   cursor: default;
+  font-family: inherit;
+  transition: all 100ms ease-out;
+}
+
+.addToCart:hover {
+  background-color: #321e1eee;
+  transform: scale(0.95);
 }
 
 .bookmark {
