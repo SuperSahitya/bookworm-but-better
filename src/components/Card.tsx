@@ -25,7 +25,10 @@ const Card = ({
       <div className={styles.container}>
         <div
           className={styles.image}
-          style={{ backgroundImage: `url(${imageUrl})` }}
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: "cover",
+          }}
         ></div>
         <div className={styles.data}>
           <div className={styles.bookData}>
