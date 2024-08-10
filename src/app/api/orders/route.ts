@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { authOptions } from "~/server/auth";
@@ -12,9 +12,11 @@ export async function GET(request: NextRequest) {
       const orders = await db
         .select()
         .from(order)
-        .where(eq(order.userId, session.user.id));
+        .where(
+          and(eq(order.userId, session.user.id), eq(order.paymentStatus, true))
+        );
       // console.log(orders);
-      console.log(orders[0]?.items)
+      console.log(orders[0]?.items);
       console.log(session.user.id);
       return NextResponse.json(orders);
     } catch (error) {
