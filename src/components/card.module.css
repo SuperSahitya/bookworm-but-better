@@ -11,11 +11,9 @@
   cursor: pointer;
 }
 .image {
+  position: relative;
   height: 70%;
   aspect-ratio: 467/700;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   outline: 2px dashed #321e1e;
   outline-offset: 3px;
 }
