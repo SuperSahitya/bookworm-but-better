@@ -1,14 +1,73 @@
 .container {
   margin-top: 10vh;
+  min-height: 80vh;
   width: 100vw;
-  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f4f1e0;
+}
+
+.loaderContainer {
+  margin-top: 10vh;
+  width: 100vw;
+  height: 60vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.loader {
+  height: 48px;
+  width: 48px;
+  background: url("../../../public/loading.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.loginCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem;
+  border: 3px solid #321e1e;
+  box-shadow: 10px 10px 0px #321e1e;
+  max-width: 400px;
+  width: 100%;
+  background-color: #f4f1e0;
+}
+
+.loginTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.loginDesc {
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
 .signInButton {
   background-color: #321e1e;
   color: #f4f1e0;
-  padding: 0.5rem;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.1s;
+}
+
+.signInButton:active {
+  transform: scale(0.98);
+}
+
+.backHome {
+  margin-top: 1.5rem;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 0.9rem;
 }

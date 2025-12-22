@@ -1,55 +1,111 @@
 .profileContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  border: 3px solid #321e1e;
+  background-color: #f4f1e0;
+  box-shadow: 10px 10px 0px #321e1e;
+  padding: 2rem;
+  margin: 2rem;
+}
+
+.header {
+  display: flex;
   align-items: center;
-  width: 350px;
-  border: 2px solid #321e1e;
-  outline: 1px solid #321e1e;
-  outline-offset: -5px;
-  min-height: 500px;
-  padding: 50px;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px dashed #321e1e;
+  margin-bottom: 2rem;
 }
 
 .image {
-  height: 20%;
-  min-height: 70px;
-  max-width: 50%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background-repeat: no-repeat;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #321e1e;
   background-size: cover;
   background-position: center;
-  outline: 2px dashed #321e1e;
-  outline-offset: 3px;
-  border-radius: 50%;
-  padding: 20px;
-  margin: 10px;
+  flex-shrink: 0;
 }
 
 .profileData {
-  color: #321e1e;
-  height: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  /* align-items: center; */
-  gap: 20px;
-  min-height: 250px;
-}
-.logButton {
-  background-color: #321e1e;
-  color: #f4f1e0;
-  font-weight: 400;
-  padding: 5px 10px;
-  cursor: pointer;
+  gap: 0.5rem;
 }
 
 .userName {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #321e1e;
 }
+
 .email {
+  font-size: 1rem;
+  color: #321e1e;
+  opacity: 0.8;
+}
+
+.sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionCard {
+  border: 2px solid #321e1e;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.sectionCard:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px 0px #321e1e;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.sectionDesc {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logButton {
+  background-color: #321e1e;
+  color: #f4f1e0;
   font-weight: 600;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.logButton:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .sections {
+    grid-template-columns: 1fr;
+  }
 }
