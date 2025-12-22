@@ -1,69 +1,145 @@
 .footerContainer {
-  /* background-color: #321e1e; */
-  /* color: #f4f1e0; */
-  /* position: absolute;
-  bottom: 0;
-  left: 0; */
   width: 100vw;
-  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid #321e1e;
+  background-color: #f4f1e0;
+  padding: 3rem 2rem 1rem 2rem;
+  color: #321e1e;
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.brandSection {
+  flex: 1;
+  min-width: 200px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.brandName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.linksSection {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.linkHeader {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  width: fit-content;
+}
+
+.link:hover {
+  transform: translateX(5px);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.socialSection {
+  min-width: 150px;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+}
+
+.iconLink {
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.iconLink:hover {
+  transform: translateY(-3px) scale(1.1);
+}
+
+.divider {
+  height: 2px;
+  background-color: #321e1e;
+  width: 100%;
+  margin-bottom: 1rem;
+  opacity: 0.2;
+}
+
+.bottomSection {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 2px solid #321e1e;
-  padding: 0rem 2rem;
-}
-
-.name {
-  font-size: 1.3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.8rem;
   font-weight: 600;
+}
+
+.madeWith {
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 0.3rem;
 }
 
-.footerHeading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.heartIcon {
+  color: #e74c3c;
+  animation: beat 1s infinite alternate;
 }
 
-.span {
-  font-size: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.icon {
-  color: #321e1e;
-  font-size: 1.5rem;
-}
-
-.made {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hide {
-  opacity: 0;
-}
-
-@media (max-width: 450px) {
-  .footerContainer {
-    padding: 0rem 1rem;
+@keyframes beat {
+  to {
+    transform: scale(1.2);
   }
-  .name {
-    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .topSection {
+    flex-direction: column;
+    gap: 2rem;
   }
-  .span {
-    font-size: 1.2rem;
+  
+  .linksSection {
+    width: 100%;
+    justify-content: space-between;
   }
-  .icon {
-    color: #321e1e;
-    font-size: 1.2rem;
-  }
-  .hide {
-    opacity: 1;
+
+  .bottomSection {
+    flex-direction: column;
+    text-align: center;
   }
 }
