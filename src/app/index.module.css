@@ -18,14 +18,14 @@
 .loaderContainer {
   margin-top: 10vh;
   width: 100vw;
-  height: 48px;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background: url("../../public/loading.gif");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: 64px;
 }
 
 .error {

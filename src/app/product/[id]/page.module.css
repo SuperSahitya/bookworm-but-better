@@ -4,6 +4,34 @@
   display: flex;
 }
 
+.loaderContainer {
+  margin-top: 10vh;
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loaderGif {
+  width: 48px;
+  height: 48px;
+  background: url("../../../../public/loading.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.loadingText {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
 .product {
   display: flex;
   width: 100%;

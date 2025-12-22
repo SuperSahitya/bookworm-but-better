@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Introduction from "~/components/Introduction";
 import Card from "~/components/Card";
+import { motion } from "framer-motion";
 
 export type Data = {
   id: number;
@@ -52,19 +53,23 @@ export default function Home() {
         {loading ? (
           <div className={styles.loaderContainer}></div>
         ) : (
-          data.map((m) => {
+          data.map((m, index) => {
             return (
-              <Link href={`/${m.id}`} key={m.id}>
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
                 <Card
                   bookId={m.id}
-                  key={m.id}
                   bookName={m.name}
                   author={m.author}
                   price={m.price}
                   imageUrl={m.imageUrl}
                   stock={m.stock}
                 ></Card>
-              </Link>
+              </motion.div>
             );
           })
         )}

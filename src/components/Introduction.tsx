@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./introduction.module.css";
 import { IoMdSearch } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const Introduction = () => {
   const router = useRouter();
@@ -15,7 +16,12 @@ const Introduction = () => {
     router.push(`/search?query=${query}`);
   };
   return (
-    <div className={styles.container}>
+    <motion.div
+      className={styles.container}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <h1 className={styles.heading}>
         THE BOOKS<br></br> YOU&apos;LL LOVE
       </h1>
@@ -31,7 +37,7 @@ const Introduction = () => {
         Discover Worlds Unseen, Stories Untold:<br></br> Embrace the Journey
         Through Pages of Imagination
       </div>
-    </div>
+    </motion.div>
   );
 };
 

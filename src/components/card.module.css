@@ -9,13 +9,26 @@
   border: 2px solid #321e1e;
   min-width: 350px;
   cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  background-color: #f4f1e0;
 }
+
+.container:hover {
+  transform: translate(-8px, -8px);
+  box-shadow: 8px 8px 0px #321e1e;
+}
+
+.container:hover .image {
+  transform: scale(1.05);
+}
+
 .image {
   position: relative;
   height: 70%;
   aspect-ratio: 467/700;
   outline: 2px dashed #321e1e;
   outline-offset: 3px;
+  transition: transform 0.3s ease;
 }
 .data {
   display: flex;
@@ -36,6 +49,3 @@
   border-radius: 2px; */
 }
 
-.container:hover{
-  box-shadow: 1px 1px 10px #321e1e;
-}

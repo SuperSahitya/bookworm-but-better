@@ -205,10 +205,10 @@ const Navbar = () => {
       <div className={styles.navContainer}>
         <div className={styles.navbar}>
           <div className={styles.hamburger} onClick={handleClick}></div>
-          <div className={styles.brand}>
+          <Link href="/" className={styles.brand}>
             <div className={styles.logo}></div>
             <div className={styles.name}>BOOKWORM</div>
-          </div>
+          </Link>
           <div className={styles.cartDataContainer}>
             {!session ? (
               <div
@@ -218,8 +218,15 @@ const Navbar = () => {
                 Log In
               </div>
             ) : (
-              <Link className={styles.loginButton} href={"/profile"}>
-                <FaUserCircle />
+              <Link className={styles.profileLink} href={"/profile"}>
+                {session.user.image ? (
+                  <div
+                    className={styles.profileImage}
+                    style={{ backgroundImage: `url(${session.user.image})` }}
+                  ></div>
+                ) : (
+                  <FaUserCircle className={styles.profileIcon} />
+                )}
               </Link>
             )}
             <div className={styles.cart} onClick={handleCartClick}>

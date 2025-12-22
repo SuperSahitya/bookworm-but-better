@@ -88,6 +88,12 @@ const Product = ({ params }: { params: { id: number } }) => {
 
   return (
     <>
+      {loading && (
+        <div className={styles.loaderContainer}>
+          <div className={styles.loaderGif}></div>
+          {/* <p className={styles.loadingText}>Fetching Book Details</p> */}
+        </div>
+      )}
       {!loading && data != undefined && (
         <div className={styles.container}>
           <div className={styles.product}>

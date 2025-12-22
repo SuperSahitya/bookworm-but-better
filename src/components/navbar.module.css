@@ -15,6 +15,7 @@
   align-items: center;
   border-bottom: 3px solid #321e1e;
   max-height: 80px;
+  background-color: #f4f1e0;
 }
 
 .hamburger {
@@ -269,15 +270,31 @@
   font-size: 0.7rem;
 }
 
-.loginButton {
-  margin-right: 0.7rem;
-  color: #321e1e;
+.profileLink {
+  margin-right: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  font-weight: 400;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.profileLink:hover {
+  transform: scale(1.1);
+}
+
+.profileImage {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #321e1e;
+  background-size: cover;
+  background-position: center;
+}
+
+.profileIcon {
+  font-size: 2rem;
+  color: #321e1e;
 }
 
 .logButton {
